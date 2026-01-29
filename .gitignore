@@ -4,20 +4,3 @@
 .env
 
 */mongo/data/*
-*/nifi/conf/archive/*
-*/nifi/provenance/*
-*/nifi/logs/*
-*/nifi/database/*
-
-**/keystore.p12
-**/truststore.p12
-**/users.xml
-**/authorizations.xml
-
-**/bootstrap.conf
-**/zookeeper.properties
-
-**/authorizers.xml
-**/login-identity-providers.xml
-!**/*.example
-
