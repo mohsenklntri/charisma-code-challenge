@@ -23,12 +23,6 @@ services:
       - SINGLE_USER_CREDENTIALS_USERNAME=${NIFI_USERNAME}
       - SINGLE_USER_CREDENTIALS_PASSWORD=${NIFI_PASSWORD}
     volumes:
-      - ./nifi/conf:/opt/nifi/nifi-current/conf
-      - ./nifi/database:/opt/nifi/nifi-current/database_repository
-      - ./nifi/provenance:/opt/nifi/nifi-current/provenance_repository
-      - ./nifi/workspace:/home/nifi/workspace
-      - ./nifi/drivers:/opt/nifi/drivers
-      - ./nifi/logs:/opt/nifi/nifi-current/logs
       - ./nifi/data:/opt/nifi/data
       - ./utils:/opt/nifi/utils
 
