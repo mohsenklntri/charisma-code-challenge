@@ -1,0 +1,53 @@
+services:
+  nifi:
+    build: .
+    container_name: nifi
+    command: >
+      bash -c "chmod -x ./conf/flow.xml.gz
+      && chmod -x ./conf/flow.json.gz"
+    ports:
+      - 8443:8443
+    environment:
+      - TZ=Asia/Tehran
+      - NIFI_ANALYTICS_PREDICT_ENABLED=true
+      - NIFI_SENSITIVE_PROPS_KEY=${NIFI_SENSITIVE_PROPS_KEY}
+      - NIFI_WEB_PROXY_HOST=nifi:8443,127.0.0.1:8443,nifi,127.0.0.1
+      - NIFI_WEB_HTTP_HOST=nifi
+      - NIFI_WEB_HTTPS_HOST=nifi
+      - NIFI_JVM_HEAP_INIT=4g
+      - NIFI_JVM_HEAP_MAX=6g
+      - NIFI_REMOTE_INPUT_SECURE=false
+      - JAVA_TOOL_OPTIONS=-Dcalcite.default.charset=utf-8
+      - NIFI_CONTENT_CLAIM_MAX_APPENDABLE_SIZE=200KB
+      - NIFI_CONTENT_REPOSITORY_ARCHIVE_ENABLED=false
+      - SINGLE_USER_CREDENTIALS_USERNAME=${NIFI_USERNAME}
+      - SINGLE_USER_CREDENTIALS_PASSWORD=${NIFI_PASSWORD}
+    volumes:
+      - ./nifi/conf:/opt/nifi/nifi-current/conf
+      - ./nifi/database:/opt/nifi/nifi-current/database_repository
+      - ./nifi/provenance:/opt/nifi/nifi-current/provenance_repository
+      - ./nifi/workspace:/home/nifi/workspace
+      - ./nifi/drivers:/opt/nifi/drivers
+      - ./nifi/logs:/opt/nifi/nifi-current/logs
+      - ./nifi/data:/opt/nifi/data
+      - ./utils:/opt/nifi/utils
+
+    networks:
+      - nifi-net
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - nifi-net
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - ./mongo/data:/data/db
+
+
+networks:
+  nifi-net:
+    # external: true
