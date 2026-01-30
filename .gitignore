@@ -4,3 +4,6 @@
 .env
 
 */mongo/data/*
+
+task-1/data/
+task-2/nifi/data/
